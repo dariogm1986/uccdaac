@@ -1,0 +1,117 @@
+<h1 class="h1modulos">Gerir Municipio</h1>
+<mat-divider></mat-divider>
+<br>
+<mat-tab-group animationDuration="1500ms" [selectedIndex]="selected.value">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="fa fa-list fa-lg"></i>&nbsp;
+            Lista
+        </ng-template>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+            <div fxFlex="63">
+
+            </div>
+            <div fxFlex="25">
+                <mat-form-field class="search">
+                    <input matInput [(ngModel)]="searchKey" placeholder="Procurar" autocomplete="off"
+                        (keyup)="Filtrar()">
+                    <button mat-button matSuffix mat-icon-button aria-label="Apagar" (click)="limpiar()"
+                        *ngIf="searchKey">
+                        <i class="fa fa-times-circle-o fa-lg"></i>
+                    </button>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="12" class="exportar2">
+                <button mat-raised-button title="Exportar ao Excel" class="exportar" [matMenuTriggerFor]="menu">
+                    <i class="fa fa-file-text fa-lg"></i>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="exportarExcel()">
+                        Tudo
+                    </button>
+                    <button mat-menu-item (click)="exportarExcelFilter()">
+                        Filtro
+                    </button>
+                </mat-menu>
+                <button mat-raised-button title="Exportar ao PDF" class="exportar" (click)="exportarPDF()">
+                    <i class="fa fa-file-pdf-o fa-lg"></i>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+            <div fxFlex="100">
+                <div class="mat-elevation-z8" id="municipioTable">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="no">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header><b>No.</b></th>
+                            <td mat-cell *matCellDef="let index = index"> {{index+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="nome">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header><b>NOME MUNICIPIO</b></th>
+                            <td mat-cell *matCellDef="let element"> {{element.nome_municipio}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="provincia">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header><b>NOME PROVINCIA</b></th>
+                            <td mat-cell *matCellDef="let element"> {{element.nome_provincia}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef><b>AÇÕES</b></th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button matTooltip="Alterar" matTooltipPosition="above"
+                                (click)=openDialog(row._id,row.nome_municipio,row.nome_provincia)>
+                                    <mat-icon><i class="fa fa-pencil-square-o fa-lg"></i></mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" matTooltip="Excluir" matTooltipPosition="above"
+                                    (click)="deleteMunicipio(row._id)">
+                                    <mat-icon><i class="fa fa-trash fa-lg"></i></mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
+            Inserir
+        </ng-template>
+        <mat-card class="cardinserir">
+            <form #municipioForm="ngForm" (ngSubmit)="createMunicipio()">
+                
+                <p>
+                    <mat-form-field appearance="outline" class="matform">
+                        <mat-label>Nome Municipio</mat-label>
+                        <input matInput name="nome_municipio" #nome_municipio="ngModel" [(ngModel)]="municipio.nome_municipio" required>
+                        <mat-hint align="end">Nome completo</mat-hint>
+                        <small class="errorred" *ngIf="!nome_municipio.valid && nome_municipio.touched">O conteúdo não é válido</small>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline" class="matform">
+                        <mat-label>Provincia</mat-label>
+                        <mat-select [(value)]="municipio.nome_provincia" required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let provincia of provincias" value="{{provincia.nome}}">{{provincia.nome}}</mat-option>
+                        </mat-select>
+                        
+                        <!--
+                        <input matInput name="nome_provincia" #nome_provincia="ngModel" [(ngModel)]="municipio.nome_provincia" required>
+                        <mat-hint align="end">Nome completo</mat-hint>
+                        <small class="errorred" *ngIf="!nome_provincia.valid && nome_provincia.touched">O conteúdo não é válido</small>-->
+                        
+                    </mat-form-field>
+                </p>
+                <button mat-raised-button color="primary" class="matform" type="submit"
+                    [disabled]="municipioForm.invalid">Inserir</button>
+            </form>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>

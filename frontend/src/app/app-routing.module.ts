@@ -5,6 +5,8 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { PostsComponent } from './modules/posts/posts.component';
 import { LoginComponent } from './modules/login/login.component';
 import {UnidadeComponent} from './components/unidade/unidade.component'; 
+import { ProvinciaComponent } from './components/provincia/provincia.component';
+import { MunicipioComponent } from './components/municipio/municipio.component';
 
 
 
@@ -23,7 +25,15 @@ const routes: Routes = [
     {
       path:'unidade',
       component:UnidadeComponent
-    }      
+    },
+    {
+      path:'provincia',
+      component: ProvinciaComponent
+    },
+    {
+      path:'municipio',
+      component: MunicipioComponent
+    }    
   ]
   },
   {

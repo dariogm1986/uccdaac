@@ -14,6 +14,10 @@ import {FormsModule} from '@angular/forms';
 import { UnidadeComponent } from './components/unidade/unidade.component';
 import {EditunidadeComponent} from './components/unidade/editunidade/editunidade.component';
 import {ExportarexcelService} from './services/exportarexcel.service';
+import { ProvinciaComponent } from './components/provincia/provincia.component';
+import { EditprovinciaComponent } from './components/provincia/editprovincia/editprovincia.component';
+import { MunicipioComponent } from './components/municipio/municipio.component';
+import { EditmunicipioComponent } from './components/municipio/editmunicipio/editmunicipio.component';
 
 
 
@@ -23,7 +27,11 @@ import {ExportarexcelService} from './services/exportarexcel.service';
     AppComponent,
     LoginComponent,
     UnidadeComponent,
-    EditunidadeComponent    
+    EditunidadeComponent,
+    ProvinciaComponent,
+    EditprovinciaComponent,
+    MunicipioComponent,
+    EditmunicipioComponent    
   ],
   imports: [
     BrowserModule,
